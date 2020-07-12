@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import Cell from "./Cell";
 import Header from "./Header";
@@ -7,18 +7,43 @@ const Game = (props) => {
   const [gameOver, setGameOver] = useState(false);
   const [whiteScore, setWhiteScore] = useState(2);
   const [blackScore, setBlackScore] = useState(2);
+  useEffect(() => {
+    if(getMaxCount(props.boardState, "B")===0 && getMaxCount(props.boardState, "W")===0)
+    {
+      setGameOver(true);
+    }
+
+    if(props.playerMode === "single" && props.currentPlayer === "B") {
+      if (getMaxCount(props.boardState, props.currentPlayer) > 0) {
+        computerMove();
+        setGameOver(isGameOver(props.boardState));
+        countScore(props.boardState);
+      }
+      props.currentPlayer === "B"
+          ? props.setCurrentPlayer("W")
+          : props.setCurrentPlayer("B");
+    }
+  }, [props.currentPlayer]);
   const handleClick = (x, y) => {
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
       console.log("Count>0" + x + "," + y + "," + props.currentPlayer);
       playGame(props.boardState, x, y, props.currentPlayer);
+      setGameOver(isGameOver(props.boardState));
+      countScore(props.boardState);
       props.currentPlayer === "B"
         ? props.setCurrentPlayer("W")
         : props.setCurrentPlayer("B");
       // console.log(currentPlayer);
       // setCurrentPlayer("B");
-      setGameOver(isGameOver(props.boardState));
-      countScore(props.boardState);
+
+    }
+    const cnt=getMaxCount(props.boardState,props.currentPlayer);
+    console.log('max count : ',cnt);
+    if(getMaxCount(props.boardState,props.currentPlayer)==0){
+      props.currentPlayer === "B"
+          ? props.setCurrentPlayer("W")
+          : props.setCurrentPlayer("B");
     }
     // setTimeout(console.log(currentPlayer), 2000);
 
@@ -30,28 +55,42 @@ const Game = (props) => {
     // }
   };
 
-  //   const computerMove = () => {
-  //     console.log("INSIDE COMPUTER MOVE");
-  //     let maxCount = 0;
-  //     let xForMaxCount = 0;
-  //     let yForMaxCount = 0;
-  //     for (let i = 0; i < 8; i++) {
-  //       for (let j = 0; j < 8; j++) {
-  //         let count = isValidMove(i, j, "B");
-  //         if (count > maxCount) {
-  //           maxCount = count;
-  //           xForMaxCount = i;
-  //           yForMaxCount = j;
-  //         }
-  //       }
-  //     }
-  //     if (maxCount > 0) playGame(boardState, xForMaxCount, yForMaxCount, "B");
-  //   };
+  const getMaxCount = (boardState,c) => {
+    let maxCount=0;
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        let count = isValidMove(i, j, c);
+        if (count > maxCount) {
+          maxCount = count;
+          console.log('x :',i,'j:',j);
+        }
+      }
+    }
+    return maxCount;
+  };
+    const computerMove = () => {
+      console.log("INSIDE COMPUTER MOVE");
+      let maxCount = 0;
+      let xForMaxCount = 0;
+      let yForMaxCount = 0;
+      for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+          let count = isValidMove(i, j, "B");
+          if (count > maxCount) {
+            maxCount = count;
+            xForMaxCount = i;
+            yForMaxCount = j;
+          }
+        }
+      }
+      if (maxCount > 0) playGame(props.boardState, xForMaxCount, yForMaxCount, "B");
+    };
 
   const isValidMove = (x, y, i) => {
     // console.log("INSIDE VALIDMOVE");
     let count = 0;
-    if (props.boardState[x][y] !== "O") console.log(count);
+    if (props.boardState[x][y] !== "O")
+      return count;
     count += checkTop(props.boardState, x, y, i);
     // console.log("top:", count);
     count += checkRight(props.boardState, x, y, i);
