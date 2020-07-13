@@ -10,13 +10,6 @@ const Game = (props) => {
   const [info, setInfo] = useState(false);
 
   useEffect(() => {
-    if (
-      getMaxCount(props.boardState, "B") === 0 &&
-      getMaxCount(props.boardState, "W") === 0
-    ) {
-      setGameOver(true);
-    }
-
     if (props.playerMode === "single" && props.currentPlayer === "B") {
       if (getMaxCount(props.boardState, props.currentPlayer) > 0) {
         setTimeout(() => {
@@ -30,7 +23,9 @@ const Game = (props) => {
         : props.setCurrentPlayer("B");
     }
   }, [props.currentPlayer]);
+
   useEffect(() => {
+    countScore(props.boardState);
     if (
         getMaxCount(props.boardState, "B") === 0 &&
         getMaxCount(props.boardState, "W") === 0
@@ -43,8 +38,9 @@ const Game = (props) => {
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
       playGame(props.boardState, x, y, props.currentPlayer);
-      setGameOver(isGameOver(props.boardState));
       countScore(props.boardState);
+      setGameOver(isGameOver(props.boardState));
+
       props.currentPlayer === "B"
         ? props.setCurrentPlayer("W")
         : props.setCurrentPlayer("B");
@@ -86,6 +82,7 @@ const Game = (props) => {
     }
     if (maxCount > 0)
       playGame(props.boardState, xForMaxCount, yForMaxCount, "B");
+    countScore(props.boardState);
   };
 
   const isValidMove = (x, y, i) => {
