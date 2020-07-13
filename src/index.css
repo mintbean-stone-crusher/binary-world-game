@@ -8,6 +8,19 @@ body {
 
 body button{
   font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+}
+
+h1{
+  float: left;
+}
+
+.gameInfoBtn{
+  float: left;
+  padding: 0 1px;
+  background: none;
+  cursor: pointer;
+ 
 }
 
 table {
@@ -27,22 +40,20 @@ td {
   box-shadow: 0px 0px 10px dimgrey inset;
 }
 td button {
-  width: 4vw;
-  height: 4vw;
+  width: 3vw;
+  height: 3vw;
   background-color: #444;
-
   border: none;
   margin: 4px;
   outline: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { 
   td button{
     width: 9vw;
     height: 9vw;
   }
 }
-
 .whiteBox{
   background-color: #fff;
   animation: pulseWhite 2s;
@@ -108,4 +119,32 @@ td button {
   padding: 10px;
   cursor: pointer;
   color:#fff
+}
+
+.gameInfo{
+  position: absolute;
+  background-color: dimgray;
+  z-index: 999999;
+  padding: 20px;
+  border: 2px solid black;
+  margin: 40px;
+  left: 0;
+}
+
+.blured{
+  opacity: 0.2;
+}
+
+.blured .gameInfo{
+  opacity: 1;
+}
+
+.gameInfo p{
+  text-align: left;
+}
+
+.header h2{
+  position: absolute;
+  top: 40vh;
+  left: 40vw;
 }

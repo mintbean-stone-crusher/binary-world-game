@@ -7,6 +7,8 @@ const Game = (props) => {
   const [gameOver, setGameOver] = useState(false);
   const [whiteScore, setWhiteScore] = useState(2);
   const [blackScore, setBlackScore] = useState(2);
+  const [info, setInfo] = useState(false);
+
   useEffect(() => {
     if (
       getMaxCount(props.boardState, "B") === 0 &&
@@ -17,7 +19,9 @@ const Game = (props) => {
 
     if (props.playerMode === "single" && props.currentPlayer === "B") {
       if (getMaxCount(props.boardState, props.currentPlayer) > 0) {
-        setTimeout(() => {  computerMove(); }, 1500);
+        setTimeout(() => {
+          computerMove();
+        }, 1500);
         setGameOver(isGameOver(props.boardState));
         countScore(props.boardState);
       }
@@ -27,7 +31,7 @@ const Game = (props) => {
     }
   }, [props.currentPlayer]);
   const handleClick = (x, y) => {
-    playSound();
+    // playSound();
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
       playGame(props.boardState, x, y, props.currentPlayer);
@@ -43,9 +47,9 @@ const Game = (props) => {
         : props.setCurrentPlayer("B");
     }
   };
-  const playSound = () => {
-    new Audio("common/Stapler-sound.mp3").play();
-  };
+  //   const playSound = () => {
+  //     new Audio("common/Stapler-sound.mp3").play();
+  //   };
   const getMaxCount = (boardState, c) => {
     let maxCount = 0;
     for (let i = 0; i < 8; i++) {
@@ -470,10 +474,21 @@ const Game = (props) => {
         gameOver={gameOver}
         whiteScore={whiteScore}
         blackScore={blackScore}
+        info={info}
+        setInfo={setInfo}
       />
-      <Board boardState={props.boardState} handleClick={handleClick} />
-      <Score whiteScore={whiteScore} blackScore={blackScore} />
-      <div id="text"></div>
+      <Board
+        boardState={props.boardState}
+        handleClick={handleClick}
+        info={info}
+        gameOver={gameOver}
+      />
+      <Score
+        whiteScore={whiteScore}
+        blackScore={blackScore}
+        info={info}
+        gameOver={gameOver}
+      />
     </div>
   );
 };
