@@ -8,8 +8,6 @@ const Game = (props) => {
   const [whiteScore, setWhiteScore] = useState(2);
   const [blackScore, setBlackScore] = useState(2);
   useEffect(() => {
-    console.log("useeffect");
-    console.log(props.currentPlayer, props.playerMode);
     if (
       getMaxCount(props.boardState, "B") === 0 &&
       getMaxCount(props.boardState, "W") === 0
@@ -19,7 +17,7 @@ const Game = (props) => {
 
     if (props.playerMode === "single" && props.currentPlayer === "B") {
       if (getMaxCount(props.boardState, props.currentPlayer) > 0) {
-        setTimeout(computerMove(), 50000);
+        setTimeout(() => {  computerMove(); }, 1500);
         setGameOver(isGameOver(props.boardState));
         countScore(props.boardState);
       }
@@ -32,31 +30,18 @@ const Game = (props) => {
     playSound();
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
-      console.log("Count>0" + x + "," + y + "," + props.currentPlayer);
       playGame(props.boardState, x, y, props.currentPlayer);
       setGameOver(isGameOver(props.boardState));
       countScore(props.boardState);
       props.currentPlayer === "B"
         ? props.setCurrentPlayer("W")
         : props.setCurrentPlayer("B");
-      // console.log(currentPlayer);
-      // setCurrentPlayer("B");
     }
-    const cnt = getMaxCount(props.boardState, props.currentPlayer);
-    console.log("max count : ", cnt);
-    if (getMaxCount(props.boardState, props.currentPlayer) == 0) {
+    if (getMaxCount(props.boardState, props.currentPlayer) === 0) {
       props.currentPlayer === "B"
         ? props.setCurrentPlayer("W")
         : props.setCurrentPlayer("B");
     }
-    // setTimeout(console.log(currentPlayer), 2000);
-
-    // console.log(boardState);
-    // if (playerMode == "single" && currentPlayer == "B") {
-    //   console.log("Computer Move");
-    //   computerMove();
-    //   currentPlayer === "B" ? setCurrentPlayer("W") : setCurrentPlayer("B");
-    // }
   };
   const playSound = () => {
     new Audio("common/Stapler-sound.mp3").play();
@@ -68,14 +53,12 @@ const Game = (props) => {
         let count = isValidMove(i, j, c);
         if (count > maxCount) {
           maxCount = count;
-          console.log("x :", i, "j:", j);
         }
       }
     }
     return maxCount;
   };
   const computerMove = () => {
-    console.log("INSIDE COMPUTER MOVE");
     let maxCount = 0;
     let xForMaxCount = 0;
     let yForMaxCount = 0;
@@ -94,61 +77,42 @@ const Game = (props) => {
   };
 
   const isValidMove = (x, y, i) => {
-    // console.log("INSIDE VALIDMOVE");
     let count = 0;
     if (props.boardState[x][y] !== "O") return count;
     count += checkTop(props.boardState, x, y, i);
-    // console.log("top:", count);
     count += checkRight(props.boardState, x, y, i);
-    // console.log("right:", count);
     count += checkLeft(props.boardState, x, y, i);
-    // console.log("left:", count);
     count += checkBottom(props.boardState, x, y, i);
-    // console.log("bottom:", count);
     count += checkTopRight(props.boardState, x, y, i);
-    // console.log("topright:", count);
     count += checkTopLeft(props.boardState, x, y, i);
-    // console.log("topleft:", count);
     count += checkBottomRight(props.boardState, x, y, i);
-    // console.log("bottomright:", count);
     count += checkBottomLeft(props.boardState, x, y, i);
-    // console.log("bottomleft:", count);
-    // console.log("x:", x, "y:", y, "cnt:", count);
     return count;
   };
 
   const playGame = (boardState, xForMaxCount, yForMaxCount, c) => {
-    // console.log("inside playgame", xForMaxCount, "-", yForMaxCount);
     if (checkTop(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("top");
       changeTop(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkRight(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("right");
       changeRight(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkLeft(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("left");
       changeLeft(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkBottom(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("btm");
       changeBottom(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkTopRight(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("tprgt");
       changeTopRight(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkTopLeft(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("topleft");
       changeTopLeft(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkBottomRight(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("btmrgt");
       changeBottomRight(boardState, xForMaxCount, yForMaxCount, c);
     }
     if (checkBottomLeft(boardState, xForMaxCount, yForMaxCount, c) > 0) {
-      // console.log("btmleft");
       changeBottomLeft(boardState, xForMaxCount, yForMaxCount, c);
     }
   };
@@ -320,13 +284,11 @@ const Game = (props) => {
       q = y;
     let copy = [...boardState];
     copy[p][q] = c;
-    // props.boardState[p][q] = c;
     p--;
     while (p >= 0) {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = c;
       }
       p--;
@@ -335,18 +297,15 @@ const Game = (props) => {
   };
 
   const changeRight = (boardState, x, y, c) => {
-    console.log("in changeright x,y", x, ":", y);
     let p = x,
       q = y;
     let copy = [...boardState];
     copy[p][q] = c;
-    // props.boardState[p][q] = c;
     q++;
     while (q <= 7) {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = c;
       }
       q++;
@@ -357,7 +316,6 @@ const Game = (props) => {
   const changeLeft = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     q--;
@@ -365,7 +323,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       q--;
@@ -375,7 +332,6 @@ const Game = (props) => {
   const changeBottom = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     p++;
@@ -383,7 +339,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       p++;
@@ -393,7 +348,6 @@ const Game = (props) => {
   const changeTopRight = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     p--;
@@ -402,7 +356,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       p--;
@@ -413,7 +366,6 @@ const Game = (props) => {
   const changeTopLeft = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     p--;
@@ -422,7 +374,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       p--;
@@ -433,7 +384,6 @@ const Game = (props) => {
   const changeBottomRight = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     p++;
@@ -442,7 +392,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       p++;
@@ -453,7 +402,6 @@ const Game = (props) => {
   const changeBottomLeft = (boardState, x, y, c) => {
     let p = x,
       q = y;
-    // props.boardState[p][q] = c;
     let copy = [...boardState];
     copy[p][q] = props.currentPlayer;
     p++;
@@ -462,7 +410,6 @@ const Game = (props) => {
       if (boardState[p][q] === c) {
         break;
       } else if (boardState[p][q] !== c) {
-        // props.boardState[p][q] = c;
         copy[p][q] = props.currentPlayer;
       }
       p++;

@@ -30,19 +30,19 @@ td button {
   width: 4vw;
   height: 4vw;
   background-color: #444;
-  
+
   border: none;
   margin: 4px;
   outline: none;
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   td button{
     width: 9vw;
     height: 9vw;
   }
 }
- 
+
 .whiteBox{
   background-color: #fff;
   animation: pulseWhite 2s;
