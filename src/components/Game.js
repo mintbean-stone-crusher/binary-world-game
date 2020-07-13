@@ -8,6 +8,8 @@ const Game = (props) => {
   const [whiteScore, setWhiteScore] = useState(2);
   const [blackScore, setBlackScore] = useState(2);
   useEffect(() => {
+    console.log('useeffect');
+    console.log(props.currentPlayer, props.playerMode);
     if(getMaxCount(props.boardState, "B")===0 && getMaxCount(props.boardState, "W")===0)
     {
       setGameOver(true);

@@ -27,6 +27,7 @@ function App() {
       setBoardState={setBoardState}
       setCurrentPlayer={setCurrentPlayer}
       boardState={boardState}
+      playerMode={playerMode}
     />
   );
 }
