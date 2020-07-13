@@ -30,6 +30,14 @@ const Game = (props) => {
         : props.setCurrentPlayer("B");
     }
   }, [props.currentPlayer]);
+  useEffect(() => {
+    if (
+        getMaxCount(props.boardState, "B") === 0 &&
+        getMaxCount(props.boardState, "W") === 0
+    ) {
+      setGameOver(true);
+    }
+  });
   const handleClick = (x, y) => {
     // playSound();
     const count = isValidMove(x, y, props.currentPlayer);
