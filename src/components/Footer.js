@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => (
   <footer>
-    Stone Crushers:{" "}
+    STONE CRUSHERS:{" "}
     <a href="https://www.linkedin.com/in/dhvani-agola/" target="_blank">
       Dhvani Agola
     </a>

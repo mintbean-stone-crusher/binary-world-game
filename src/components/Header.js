@@ -6,7 +6,7 @@ const Header = (props) => {
       <div hidden={props.info === false} className="gameInfo">
         Game Info
         <p>
-          A square 8x8 board is available, 64 discs coloured black on one side
+          A square 8x8 board is available, 64 squares coloured black on one side
           and white on the opposite side.
         </p>
         <p>

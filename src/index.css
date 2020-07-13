@@ -20,9 +20,15 @@ h1{
   padding: 0 1px;
   background: none;
   cursor: pointer;
- 
 }
 
+@media (max-width: 376px) { 
+  .gameInfoBtn{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+  }
+}
 table {
   border-collapse: separate;
   background-color: #444;
@@ -156,8 +162,5 @@ footer a{
 
 footer{
   text-align: center;
-  /* bottom: 0px;
-  position: fixed;*/
   padding: 10px;
-  /* margin-top: 20px; */
 }
