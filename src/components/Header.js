@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Header = (props) => {
-  console.log(props.gameOver);
-
-  // let info = false;
-  console.log(props.info);
   return (
     <div className="header">
       <div hidden={props.info === false} className="gameInfo">
@@ -30,20 +26,20 @@ const Header = (props) => {
         <p>Player is winner who has maximum squares on the board.</p>
         <button onClick={() => props.setInfo(false)}>OK</button>
       </div>
+      <h2>
+        {props.gameOver === true
+          ? props.whiteScore > props.blackScore
+            ? "White Won!"
+            : props.blackScore > props.whiteScore
+            ? "Black Won!"
+            : "Tie Game!"
+          : null}
+      </h2>
       <div className={props.info === true ? "blured" : null}>
         <h1>BINARY WORLD</h1>
         <button className="gameInfoBtn" onClick={() => props.setInfo(true)}>
           &#63;
         </button>
-        <h2>
-          {props.gameOver === true
-            ? props.whiteScore > props.blackScore
-              ? "White Won!"
-              : props.blackScore > props.whiteScore
-              ? "Black Won!"
-              : "Tie Game!"
-            : null}
-        </h2>
         <br></br>
         <button
           onClick={() => props.setPlayerMode("single")}

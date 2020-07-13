@@ -146,5 +146,18 @@ td button {
 .header h2{
   position: absolute;
   top: 40vh;
-  left: 40vw;
+  z-index: 999999;
+  font-size: xxx-large;
+}
+
+footer a{
+  color:#000;
+}
+
+footer{
+  text-align: center;
+  /* bottom: 0px;
+  position: fixed;*/
+  padding: 10px;
+  /* margin-top: 20px; */
 }

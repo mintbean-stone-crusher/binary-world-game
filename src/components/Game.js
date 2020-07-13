@@ -27,14 +27,13 @@ const Game = (props) => {
   useEffect(() => {
     countScore(props.boardState);
     if (
-        getMaxCount(props.boardState, "B") === 0 &&
-        getMaxCount(props.boardState, "W") === 0
+      getMaxCount(props.boardState, "B") === 0 &&
+      getMaxCount(props.boardState, "W") === 0
     ) {
       setGameOver(true);
     }
   });
   const handleClick = (x, y) => {
-    // playSound();
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
       playGame(props.boardState, x, y, props.currentPlayer);
@@ -51,9 +50,7 @@ const Game = (props) => {
         : props.setCurrentPlayer("B");
     }
   };
-  //   const playSound = () => {
-  //     new Audio("common/Stapler-sound.mp3").play();
-  //   };
+
   const getMaxCount = (boardState, c) => {
     let maxCount = 0;
     for (let i = 0; i < 8; i++) {

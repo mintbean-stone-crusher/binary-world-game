@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Game from "./components/Game";
+import Footer from "./components/Footer";
 
 function App() {
   const [currentPlayer, setCurrentPlayer] = useState("W");
@@ -17,14 +18,17 @@ function App() {
   ]);
 
   return (
-    <Game
-      currentPlayer={currentPlayer}
-      setPlayerMode={setPlayerMode}
-      setBoardState={setBoardState}
-      setCurrentPlayer={setCurrentPlayer}
-      boardState={boardState}
-      playerMode={playerMode}
-    />
+    <>
+      <Game
+        currentPlayer={currentPlayer}
+        setPlayerMode={setPlayerMode}
+        setBoardState={setBoardState}
+        setCurrentPlayer={setCurrentPlayer}
+        boardState={boardState}
+        playerMode={playerMode}
+      />
+      <Footer />
+    </>
   );
 }
 
