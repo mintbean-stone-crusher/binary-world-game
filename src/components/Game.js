@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from "react";
 import Board from "./Board";
-import Cell from "./Cell";
 import Header from "./Header";
+import Score from "./Score";
 
 const Game = (props) => {
   const [gameOver, setGameOver] = useState(false);
   const [whiteScore, setWhiteScore] = useState(2);
   const [blackScore, setBlackScore] = useState(2);
   useEffect(() => {
-    console.log('useeffect');
+    console.log("useeffect");
     console.log(props.currentPlayer, props.playerMode);
-    if(getMaxCount(props.boardState, "B")===0 && getMaxCount(props.boardState, "W")===0)
-    {
+    if (
+      getMaxCount(props.boardState, "B") === 0 &&
+      getMaxCount(props.boardState, "W") === 0
+    ) {
       setGameOver(true);
     }
 
-    if(props.playerMode === "single" && props.currentPlayer === "B") {
+    if (props.playerMode === "single" && props.currentPlayer === "B") {
       if (getMaxCount(props.boardState, props.currentPlayer) > 0) {
-        computerMove();
+        setTimeout(computerMove(), 50000);
         setGameOver(isGameOver(props.boardState));
         countScore(props.boardState);
       }
       props.currentPlayer === "B"
-          ? props.setCurrentPlayer("W")
-          : props.setCurrentPlayer("B");
+        ? props.setCurrentPlayer("W")
+        : props.setCurrentPlayer("B");
     }
   }, [props.currentPlayer]);
   const handleClick = (x, y) => {
+    playSound();
     const count = isValidMove(x, y, props.currentPlayer);
     if (count > 0) {
       console.log("Count>0" + x + "," + y + "," + props.currentPlayer);
@@ -38,14 +41,13 @@ const Game = (props) => {
         : props.setCurrentPlayer("B");
       // console.log(currentPlayer);
       // setCurrentPlayer("B");
-
     }
-    const cnt=getMaxCount(props.boardState,props.currentPlayer);
-    console.log('max count : ',cnt);
-    if(getMaxCount(props.boardState,props.currentPlayer)==0){
+    const cnt = getMaxCount(props.boardState, props.currentPlayer);
+    console.log("max count : ", cnt);
+    if (getMaxCount(props.boardState, props.currentPlayer) == 0) {
       props.currentPlayer === "B"
-          ? props.setCurrentPlayer("W")
-          : props.setCurrentPlayer("B");
+        ? props.setCurrentPlayer("W")
+        : props.setCurrentPlayer("B");
     }
     // setTimeout(console.log(currentPlayer), 2000);
 
@@ -56,43 +58,45 @@ const Game = (props) => {
     //   currentPlayer === "B" ? setCurrentPlayer("W") : setCurrentPlayer("B");
     // }
   };
-
-  const getMaxCount = (boardState,c) => {
-    let maxCount=0;
+  const playSound = () => {
+    new Audio("common/Stapler-sound.mp3").play();
+  };
+  const getMaxCount = (boardState, c) => {
+    let maxCount = 0;
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
         let count = isValidMove(i, j, c);
         if (count > maxCount) {
           maxCount = count;
-          console.log('x :',i,'j:',j);
+          console.log("x :", i, "j:", j);
         }
       }
     }
     return maxCount;
   };
-    const computerMove = () => {
-      console.log("INSIDE COMPUTER MOVE");
-      let maxCount = 0;
-      let xForMaxCount = 0;
-      let yForMaxCount = 0;
-      for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-          let count = isValidMove(i, j, "B");
-          if (count > maxCount) {
-            maxCount = count;
-            xForMaxCount = i;
-            yForMaxCount = j;
-          }
+  const computerMove = () => {
+    console.log("INSIDE COMPUTER MOVE");
+    let maxCount = 0;
+    let xForMaxCount = 0;
+    let yForMaxCount = 0;
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        let count = isValidMove(i, j, "B");
+        if (count > maxCount) {
+          maxCount = count;
+          xForMaxCount = i;
+          yForMaxCount = j;
         }
       }
-      if (maxCount > 0) playGame(props.boardState, xForMaxCount, yForMaxCount, "B");
-    };
+    }
+    if (maxCount > 0)
+      playGame(props.boardState, xForMaxCount, yForMaxCount, "B");
+  };
 
   const isValidMove = (x, y, i) => {
     // console.log("INSIDE VALIDMOVE");
     let count = 0;
-    if (props.boardState[x][y] !== "O")
-      return count;
+    if (props.boardState[x][y] !== "O") return count;
     count += checkTop(props.boardState, x, y, i);
     // console.log("top:", count);
     count += checkRight(props.boardState, x, y, i);
@@ -480,6 +484,9 @@ const Game = (props) => {
     ]);
     props.setCurrentPlayer("W");
     props.setPlayerMode("single");
+    setWhiteScore(2);
+    setBlackScore(2);
+    setGameOver(false);
   };
 
   const isGameOver = (boardState) => {
@@ -511,12 +518,14 @@ const Game = (props) => {
       <Header
         currentPlayer={props.currentPlayer}
         setPlayerMode={props.setPlayerMode}
+        playerMode={props.playerMode}
         resetGame={resetGame}
         gameOver={gameOver}
         whiteScore={whiteScore}
         blackScore={blackScore}
       />
       <Board boardState={props.boardState} handleClick={handleClick} />
+      <Score whiteScore={whiteScore} blackScore={blackScore} />
       <div id="text"></div>
     </div>
   );

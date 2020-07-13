@@ -2,7 +2,7 @@ import React from "react";
 
 const Cell = (props) => {
   return (
-    <td id="cell_0_0" onClick={() => props.handleClick(props.i, props.j)}>
+    <td onClick={() => props.handleClick(props.i, props.j)}>
       {/* {props.i}
       {props.j} */}
       <button

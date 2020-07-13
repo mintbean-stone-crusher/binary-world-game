@@ -2,7 +2,7 @@ body {
   margin: 0;
 
   font-family: 'Press Start 2P', cursive;
-  background-image: url('common/images/background1.jpg');
+  background-image: url('common/images/background2.jpg');
   background-size: cover;
 }
 
@@ -13,6 +13,7 @@ body button{
 table {
   border-collapse: separate;
   background-color: #444;
+  box-shadow: 0px 0px 10px 2px black;
 }
 table, tr, td {
   margin: 0px;
@@ -20,14 +21,15 @@ table, tr, td {
   border-spacing: 0px;
 }
 td {
-  border: solid 1px #444;
-  background-color: #c4ac90;
+  border: solid 1px #000;
+  background-color: #444;
   text-align: center;
+  box-shadow: 0px 0px 10px dimgrey inset;
 }
 td button {
   width: 4vw;
   height: 4vw;
-  background-color: #c4ac90;
+  background-color: #444;
   
   border: none;
   margin: 4px;
@@ -43,23 +45,67 @@ td button {
  
 .whiteBox{
   background-color: #fff;
+  animation: pulseWhite 2s;
 }
+
+@keyframes pulseWhite{
+  0%{
+    background-color: #444;
+  }
+  100%{
+    background-color: #fff;
+  }
+}
+
 .blackBox{
   background-color: #000;
+  animation: pulseBlack 2s;
+}
+
+@keyframes pulseBlack{
+  0%{
+    background-color: #444;
+  }
+  100%{
+    background-color: #000;
+  }
 }
 
 .box{
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 
-.box table, .box .header{
+.box table, .box .header, .box .header h3{
   align-self: center;
+  text-align: center;
 }
 
 .currentPlayer{
   height: 30px;
   width: 30px;
   border: solid 1px black;
+}
+
+.playerMode{
+  background-color: #444;
+  border: solid 2px black;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.selected{
+  border: solid 4px #fff;
+  box-shadow: 0px 0px 10px 3px black;
+  color:#fff;
+}
+
+.restartBtn{
+  background-color: black;
+  border: solid 2px #444;
+  padding: 10px;
+  cursor: pointer;
+  color:#fff
 }
